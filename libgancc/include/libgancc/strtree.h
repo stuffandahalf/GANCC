@@ -1,7 +1,7 @@
 #ifndef LIB_GANCC_STRTREE_H
 #define LIB_GANCC_STRTREE_H
 
-struct rootstrnode {
+struct strtree {
 	size_t count;
 	struct strnode **lookup;
 };
@@ -9,7 +9,7 @@ struct rootstrnode {
 struct strnode {
     char c;
     int i;
-    struct rootstrnode chain;
+    struct strtree *chain;
 };
 
 struct strval {
@@ -19,8 +19,7 @@ struct strval {
 
 #define STRVAL(str, val) {str, val}
 
-struct strnode *init_strnode(struct strnode *node);
-struct strnode *generate_string_lookup(unsigned int count, struct strval *strings);
-void free_strnode(struct strnode *lookup);
+struct strtree *generate_strtree(unsigned int count, struct strval *strings);
+void free_strtree(struct strtree *tree);
 
 #endif /* defined(LIB_GANCC_STRTREE_H */

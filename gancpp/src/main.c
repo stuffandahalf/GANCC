@@ -31,18 +31,30 @@ static struct strval fixed_tokens[] = {
 
 	STRVAL("ifdef", TOKEN_IFDEF),
 	STRVAL("ifndef", TOKEN_IFNDEF),
-	STRVAL("elif", TOKEN_ELIF)
-	STRVAL("else", TOKEN_ELSE)
+	STRVAL("elif", TOKEN_ELIF),
+	STRVAL("else", TOKEN_ELSE),
 	STRVAL("endif", TOKEN_ENDIF),
 
 	STRVAL("define", TOKEN_DEFINE),
 	STRVAL("include", TOKEN_INCLUDE)
 };
+unsigned int token_count = sizeof(fixed_tokens) / sizeof(struct strval);
+
+#define LINE_BUFFER_SIZE 256
 
 int main(int argc, char **argv)
 {
+	struct strtree *strtree = generate_strtree(token_count, fixed_tokens);
+
+	free_strtree(strtree);
+
 	//printf("Hello from %s\n", argv[0]);
 	//yyparse();
 	//yylex();
+	//char lbuffer[LINE_BUFFER_SIZE];
+
+	/*while (getline(&lbuffer, LINE_BUFFER_SIZE, stdin) > 0) {
+		printf("%s\n", lbuffer);
+	}*/
 	return 0;
 }
