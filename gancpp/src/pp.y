@@ -47,13 +47,13 @@ directive : include
           ;
 
 include : POUND INCLUDE LOCALINCLUDE
-            { printf("%s\n", $<s>4); }
+            { printf("%s\n", $<s>3); }
         | POUND INCLUDE GLOBALINCLUDE
             { printf("%s\n", $<s>3); }
         ;
 
-define : POUND DEFINE IDENTIFIER ".*(\\\n.*)*" NEWLINE
-           { printef_d("%s\t%s\t%s\t%s\n", $<s>1, $<s>2, $<s>3); }
+define : POUND DEFINE IDENTIFIER /*".*(\\\n.*)*"*/ /*NEWLINE */
+           { printef_d("MACRO DEFINITION\n"); printef_d("%s\n", $<s>$); }
        ;
 
 %%
