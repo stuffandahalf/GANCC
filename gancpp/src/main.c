@@ -31,8 +31,8 @@ static struct strval fixed_tokens[] = {
 
 	STRVAL("ifdef", TOKEN_IFDEF),
 	STRVAL("ifndef", TOKEN_IFNDEF),
-	STRVAL("elif", TOKEN_ELIF)
-	STRVAL("else", TOKEN_ELSE)
+	STRVAL("elif", TOKEN_ELIF),
+	STRVAL("else", TOKEN_ELSE),
 	STRVAL("endif", TOKEN_ENDIF),
 
 	STRVAL("define", TOKEN_DEFINE),
