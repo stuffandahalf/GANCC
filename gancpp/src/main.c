@@ -7,6 +7,7 @@ size_t line_num;
 
 int yyparse(void);
 
+#define TOKEN_INVALID		0
 #define TOKEN_ANYCHAR		1
 #define TOKEN_IDENTIFIER	2
 #define TOKEN_POUND			11
@@ -38,9 +39,15 @@ static struct strval fixed_tokens[] = {
 	STRVAL("define", TOKEN_DEFINE),
 	STRVAL("include", TOKEN_INCLUDE)
 };
+static size_t token_count = sizeof(fixed_tokens) / sizeof(struct strval);
 
 int main(int argc, char **argv)
 {
+	struct rootstrnode *lookup_table = generate_string_lookup(token_count, fixed_tokens);
+
+	//printf("Located toked %d\n", )
+
+	free_rootstrnode(lookup_table);
 	//printf("Hello from %s\n", argv[0]);
 	//yyparse();
 	//yylex();

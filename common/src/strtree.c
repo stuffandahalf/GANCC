@@ -40,6 +40,7 @@ struct rootstrnode *generate_string_lookup(unsigned int count, struct strval *st
 		rsnp = root;
 		//for (cp = strings[i].s; *cp != '\0'; cp++) {
 		done = 0;
+		cp = strings[i].s;
 		while (!done) {
 			if (*cp == '\0') {
 				done = 1;
