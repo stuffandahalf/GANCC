@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+#include <libgancc/lang.h>
 #include <libgancc/strtree.h>
 
 static struct strnode *init_strnode(struct strnode *node)
@@ -45,7 +46,7 @@ struct rootstrnode *generate_string_lookup(unsigned int count, struct strval *st
 			if (*cp == '\0') {
 				done = 1;
 			}
-			printf("%c\n", *cp);
+			printef_d("%c\n", *cp);
 			for (j = 0; j < rsnp->count; j++) {
 				if (rsnp->lookup[j]->c == *cp) {
 					rsnp = rsnp->lookup[j]->chain;
