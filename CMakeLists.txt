@@ -4,10 +4,19 @@ project(GANCC C)
 find_package(BISON)
 find_package(FLEX)
 
-#flex_target(
+file(GLOB_RECURSE COMMON_SOURCES "libgancc/src/*.c")
+file(GLOB_RECURSE COMMON_HEADERS "libgancc/include/*.h")
+add_library(libgancc STATIC ${COMMON_SOURCES} ${COMMON_HEADERS})
+target_include_directories(libgancc PUBLIC libgancc/include/)
+
+bison_target(pp_parser gancpp/src/pp.y ${CMAKE_CURRENT_BINARY_DIR}/pp_parser.c)
+flex_target(pp_scanner gancpp/src/pp.l ${CMAKE_CURRENT_BINARY_DIR}/pp_scanner.c)
+add_flex_bison_dependency(pp_scanner pp_parser)
 file(GLOB_RECURSE GANCPP_SOURCES "gancpp/src/*.c")
 file(GLOB_RECURSE GANCPP_LOCAL_HEADERS "gancpp/src/*.h")
-add_executable(gancpp ${GANCPP_SOURCES} ${GANCPP_LOCAL_HEADERS})
+add_executable(gancpp ${GANCPP_SOURCES} ${GANCPP_LOCAL_HEADERS} ${BISON_pp_parser_OUTPUTS} ${FLEX_pp_scanner_OUTPUTS})
+target_include_directories(gancpp PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/)
+target_link_libraries(gancpp PRIVATE libgancc)
 
 bison_target(lang_parser gancc/src/c.y ${CMAKE_CURRENT_BINARY_DIR}/lang_parser.c)
 flex_target(lang_scanner gancc/src/c.l ${CMAKE_CURRENT_BINARY_DIR}/lang_scanner.c)
@@ -17,5 +26,6 @@ file(GLOB_RECURSE GANCC_LOCAL_HEADERS "gancc/src/*.h")
 file(GLOB_RECURSE HEADERS "include/*.h")
 add_executable(gancc ${GANCC_SOURCES} ${GANCC_LOCAL_HEADERS} ${GANCC_HEADERS} ${BISON_lang_parser_OUTPUTS} ${FLEX_lang_scanner_OUTPUTS})
 target_include_directories(gancc PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/)
+target_link_libraries(gancpp PRIVATE libgancc)
 
 install(TARGETS gancpp gancc DESTINATION ${CMAKE_INSTALL_PREFIX})
