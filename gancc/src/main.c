@@ -1,17 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <libgancc/configuration.h>
 #include <libgancc/context.h>
 #include <libgancc/lang.h>
 #include <lang_parser.h>
 
 int yyparse(void);
 
+struct configuration config;
+
 int main(int argc, char **argv)
 {
-	/*printf("Hello World\n");*/
-
 	cntxt = init_context(malloc(sizeof(struct context)));
 	cntxt->fname = "<stdin>";
+
+	//config.version = 199901L;
+	config.version = 0;
 
 	yyparse();
 
