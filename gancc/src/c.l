@@ -144,7 +144,7 @@ IS                      [uUlL]*
 ","                     { TOKEN(',', DEFAULT_ASSIGN); }
 ":"                     { TOKEN(':', DEFAULT_ASSIGN); }
 "="                     { TOKEN('=', DEFAULT_ASSIGN); }
-"("						{ TOKEN('('), DEFAULT_ASSIGN); }
+"("						{ TOKEN('(', DEFAULT_ASSIGN); }
 ")"						{ TOKEN(')', DEFAULT_ASSIGN); }
 ("["|"<:")				{ TOKEN('[', DEFAULT_ASSIGN); }
 ("]"|":>")				{ TOKEN(']', DEFAULT_ASSIGN); }
@@ -164,8 +164,8 @@ IS                      [uUlL]*
 "?"                     { TOKEN('?', DEFAULT_ASSIGN); }
 "#"                     { TOKEN('#', DEFAULT_ASSIGN); }
 
--?[0-9]+                { TOKEN(CONSTANT, INT_ASSIGN(10)); }    /* Matches all base 10 numbers */
--?0[0-7]+               { TOKEN(CONSTANT, INT_ASSIGN(8)); }     /* Matches base 8 numbers */
+-?[1-9][0-9]*           { TOKEN(CONSTANT, INT_ASSIGN(10)); }    /* Matches all base 10 numbers */
+-?0[0-7]*               { TOKEN(CONSTANT, INT_ASSIGN(8)); }     /* Matches base 8 numbers */
 -?0[xX][0-9a-fA-F]+     { TOKEN(CONSTANT, INT_ASSIGN(16)); }    /* Matches base 16 numbers */
 L?'(\\.|[^\\'])+'       { TOKEN(CONSTANT, CHAR_ASSIGN); }       /* Character constant */
 L?\".*\"                { TOKEN(STRING_LITERAL, DEFAULT_ASSIGN); }

@@ -70,8 +70,8 @@ external_declaration
     ;*/
 
 declaration
-    : declaration_specifiers ';'
-    | declaration_specifiers init_declarator_list ';'
+    : declaration_specifiers init_declarator_list ';'
+		{ printef_d("%s\n", $<s>1); }
     ;
 
 declaration_specifiers
@@ -84,8 +84,8 @@ declaration_specifiers
     ;
 
 storage_class_specifier
-    : TYPEDEF
-    | EXTERN
+    : /*TYPEDEF
+    | */EXTERN
     | STATIC
     | AUTO
     | REGISTER
@@ -118,7 +118,7 @@ init_declarator_list
 
 init_declarator
     : declarator
-    | declarator '=' initializer
+    /*| declarator '=' initializer*/
     ;
 
 declarator
@@ -140,22 +140,25 @@ type_qualifier_list
 direct_declarator
     : IDENTIFIER
     | '(' declarator ')'
-    | direct_declarator '[' constant_expression ']'
+    /*| direct_declarator '[' constant_expression ']'*/
     | direct_declarator '[' ']'
     | direct_declarator '(' parameter_type_list ')'
-    | direct_declarator '(' identifier_list ')'
+    /*| direct_declarator '(' identifier_list ')'*/
     | direct_declarator '(' ')'
     ;
+
 
 parameter_type_list
     : parameter_list
     | parameter_list ',' ELLIPSIS
     ;
 
+
 parameter_list
     : parameter_declaration
     | parameter_list ',' parameter_declaration
     ;
+
 
 parameter_declaration
     : declaration_specifiers declarator
@@ -163,42 +166,47 @@ parameter_declaration
     | declaration_specifiers
     ;
 
+
 abstract_declarator
     : pointer
     | direct_abstract_declarator
     | pointer direct_abstract_declarator
     ;
 
+
 direct_abstract_declarator
     : '(' abstract_declarator ')'
     | '[' ']'
-    | '[' constant_expression ']'
+    /*| '[' constant_expression ']'*/
     | direct_abstract_declarator '[' ']'
-    | direct_abstract_declarator '[' constant_expression ']'
+    /*| direct_abstract_declarator '[' constant_expression ']'*/
     | '(' ')'
     | '(' parameter_type_list ')'
     | direct_abstract_declarator '(' ')'
     | direct_abstract_declarator '(' parameter_type_list ')'
     ;
 
+ /*
 initializer
     : assignment_expression
     | '{' initializer_list '}'
-    | '{' initializer_list ',' }
-    ;
+    | '{' initializer_list ',' '}'
+    ; */
 
-assignment_expression
+ /*
+assignment_expression */
     /*: conditional_expression*/
-    | unary_expression assignment_operator assignment expression
-    ;
+    /*| unary_expression assignment_operator assignment expression
+    ; */
 
+ /*
 unary_expression
-    : /* postfix_expression
+    :*/ /* postfix_expression
     | INC_OP unary_expression
     | DEC_OP unary_expression
     | unary_operator cast_expression
     | SIZEOF unary_expression */
-    | SIZEOF '(' type_name ')'
-    ;
+    /*| SIZEOF '(' type_name ')'
+    ;*/
 
 %%
