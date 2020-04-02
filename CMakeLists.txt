@@ -26,6 +26,6 @@ file(GLOB_RECURSE GANCC_LOCAL_HEADERS "gancc/src/*.h")
 file(GLOB_RECURSE HEADERS "include/*.h")
 add_executable(gancc ${GANCC_SOURCES} ${GANCC_LOCAL_HEADERS} ${GANCC_HEADERS} ${BISON_lang_parser_OUTPUTS} ${FLEX_lang_scanner_OUTPUTS})
 target_include_directories(gancc PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/)
-target_link_libraries(gancpp PRIVATE common)
+target_link_libraries(gancc PRIVATE common)
 
 install(TARGETS gancpp gancc DESTINATION ${CMAKE_INSTALL_PREFIX})
