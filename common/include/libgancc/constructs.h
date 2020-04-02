@@ -1,5 +1,5 @@
-#ifndef GANCC_CONSTRUCTS_H
-#define GANCC_CONSTRUCTS_H
+#ifndef LIB_GANCC_CONSTRUCTS_H
+#define LIB_GANCC_CONSTRUCTS_H
 
 #define NODE_T(T) struct DONOTUSE_node_#T { T val; struct DONOTUSE_node_#T *next; }
 
@@ -24,4 +24,4 @@ struct literal {
 	} val;
 };
 
-#endif /* defined(GANCC_CONSTRUCTS_H) */
+#endif /* defined(LIB_GANCC_CONSTRUCTS_H) */

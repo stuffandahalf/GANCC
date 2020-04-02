@@ -1,5 +1,5 @@
-#ifndef GANCC_CONTEXT_H
-#define GANCC_CONTEXT_H
+#ifndef LIB_GANCC_CONTEXT_H
+#define LIB_GANCC_CONTEXT_H
 
 struct context {
 	size_t column;
@@ -13,4 +13,4 @@ void free_context(struct context *cntxt);
 
 extern struct context *cntxt;
 
-#endif /* defined(GANCC_CONTEXT_H) */
+#endif /* defined(LIB_GANCC_CONTEXT_H) */

@@ -1,5 +1,5 @@
-#ifndef GANCC_CONFIGURATION_H
-#define GANCC_CONFIGURATION_H
+#ifndef LIB_GANCC_CONFIGURATION_H
+#define LIB_GANCC_CONFIGURATION_H
 
 struct configuration {
 	long version;
@@ -7,4 +7,4 @@ struct configuration {
 
 extern struct configuration config;
 
-#endif /* defined(GANCC_CONFIGURATION_H) */
+#endif /* defined(LIB_GANCC_CONFIGURATION_H) */
