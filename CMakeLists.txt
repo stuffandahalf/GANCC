@@ -43,6 +43,7 @@ file(GLOB_RECURSE HEADERS "include/*.h")
 add_executable(gancc ${GANCC_SOURCES} ${GANCC_LOCAL_HEADERS} ${GANCC_HEADERS} ${BISON_lang_parser_OUTPUTS} ${FLEX_lang_scanner_OUTPUTS})
 require_c_standard(gancc 99)
 check_and_add_header(gancc getopt.h HAVE_GETOPT_H)
+check_and_add_header(gancc unistd.h HAVE_UNISTD_H)
 target_include_directories(gancc PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/)
 target_link_libraries(gancc PRIVATE common)
 

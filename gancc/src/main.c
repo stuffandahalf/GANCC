@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef HAVE_GETOPT_H
+#if defined(HAVE_GETOPT_H)
 #include <getopt.h>
-#else
+#define USE_GETOPT_LONG
+#elif defined(HAVE_UNISTD_H)
 #include <unistd.h>
+#else
+#error No standard argument parser available
 #endif /* HAVE_GETOPT_LONG */
 #include <libgancc/configuration.h>
 #include <libgancc/context.h>
@@ -43,7 +46,7 @@ int configure(int argc, char **argv)
 {
 	int o;
 	static const char *const help_fmt = "%s [-s std]\n";
-#ifdef HAVE_GETOPT_H
+#ifdef USE_GETOPT_LONG
 	static struct option long_opts[] = {
 		{ "std", required_argument, NULL, 's' },
 		{ "help", no_argument, NULL, 'h' },
