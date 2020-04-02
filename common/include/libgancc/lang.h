@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define GANCC_PRE_ANSI_C	0
 #define GANCC_STD_C89		1
@@ -21,6 +22,8 @@
 #else
 #define printef_d(fmt, ...)
 #endif
+
+#define streq(s1, s2) !strcmp(s1, s2)
 
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 typedef unsigned long long int uint_max;

@@ -2,7 +2,8 @@
 #define LIB_GANCC_CONFIGURATION_H
 
 struct configuration {
-	long version;
+	int ecode;
+	long lang_version;
 };
 
 extern struct configuration config;

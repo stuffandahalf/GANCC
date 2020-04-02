@@ -48,7 +48,7 @@
 #endif /* defined(DEBUG_LEX) && DEBUG_LEX */
 
 #define STD_TOKEN(c_std, main_tok, main_assign, alt_tok, alt_assign) \
-	AB_TOKEN(config.version >= (c_std), main_tok, main_assign, alt_tok, alt_assign)
+	AB_TOKEN(config.lang_version >= (c_std), main_tok, main_assign, alt_tok, alt_assign)
 
 #define TOKEN(tok, assign) \
 	STD_TOKEN(GANCC_STD_C89, tok, assign, 0, DEFAULT_ASSIGN)
