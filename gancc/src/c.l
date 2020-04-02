@@ -2,17 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libgancc/lang.h>
+#include <libgancc/context.h>
 #include <lang_parser.h>
 
 #define DEBUG_LEX   1
 
 #if defined(DEBUG_LEX) && DEBUG_LEX
 #define TOKEN(tok, assignment) \
+    count(); \
     assignment; \
 	printef_d("%s = %s\n", #tok, yytext); \
 	return tok
 #else
 #define TOKEN(tok, assignment) \
+    count(); \
     assignment; \
     return tok
 #endif
@@ -29,7 +32,8 @@
     } \
 }
 
-int yywrap();
+int yywrap(void);
+void count(void);
 
 %}
 
@@ -56,10 +60,25 @@ short					{ TOKEN(SHORT, DEFAULT_ASSIGN); }
 
 [_a-zA-Z][_a-zA-Z0-9]*	{ TOKEN(IDENTIFIER, ); }
 
+[ \t\n]                 { count(); }
+
 %%
 
-int yywrap()
+int yywrap(void)
 {
 	printef_d("yywrap is called\n");
 	return 1;
+}
+
+void count(void)
+{
+    char *c;
+    for (c = yytext; *c != '\0'; c++) {
+        if (*c == '\n') {
+            cntxt->line++;
+            cntxt->column = 1;
+        } else {
+            cntxt->column++;
+        }
+    }
 }
