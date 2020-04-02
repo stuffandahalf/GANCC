@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 
 	//config.version = 199901L;
 	config.version = 0;
-
+	
 	yyparse();
 
 	printef_d("%s:%zd:%zd\n", cntxt->fname, cntxt->line, cntxt->column);
