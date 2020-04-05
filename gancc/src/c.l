@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libgancc/lang.h>
-#include <libgancc/configuration.h>
 #include <libgancc/context.h>
+#include <libgancc/constructs.h>
+#include <gancc/config.h>
 #include <lang_parser.h>
 
 #define DEBUG_LEX   1
@@ -48,7 +49,7 @@
 #endif /* defined(DEBUG_LEX) && DEBUG_LEX */
 
 #define STD_TOKEN(c_std, main_tok, main_assign, alt_tok, alt_assign) \
-	AB_TOKEN(config.lang_version >= (c_std), main_tok, main_assign, alt_tok, alt_assign)
+	AB_TOKEN(g_config.lang_version >= (c_std), main_tok, main_assign, alt_tok, alt_assign)
 
 #define TOKEN(tok, assign) \
 	STD_TOKEN(GANCC_STD_C89, tok, assign, 0, DEFAULT_ASSIGN)

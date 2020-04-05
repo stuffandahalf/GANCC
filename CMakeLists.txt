@@ -45,6 +45,7 @@ require_c_standard(gancc 99)
 check_and_add_header(gancc getopt.h HAVE_GETOPT_H)
 check_and_add_header(gancc unistd.h HAVE_UNISTD_H)
 target_include_directories(gancc PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/)
+target_include_directories(gancc PRIVATE gancc/include/)
 target_link_libraries(gancc PRIVATE common)
 
 install(TARGETS gancpp gancc DESTINATION ${CMAKE_INSTALL_PREFIX})

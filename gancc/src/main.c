@@ -8,21 +8,24 @@
 #else
 #error No standard argument parser available
 #endif /* HAVE_GETOPT_LONG */
-#include <libgancc/configuration.h>
+//#include <libgancc/configuration.h>
 #include <libgancc/context.h>
 #include <libgancc/lang.h>
-#include <lang_parser.h>
+#include <gancc/parser.h>
+#include <gancc/config.h>
 
 int yyparse(void);
 int configure(int argc, char **argv);
 
+struct configuration g_config;
+
 int main(int argc, char **argv)
 {
-	config.ecode = EXIT_SUCCESS;
-	config.lang_version = GANCC_STD_C89;
+	g_config.ecode = EXIT_SUCCESS;
+	g_config.lang_version = GANCC_STD_C89;
 	switch (configure(argc, argv)) {
 	case -1:
-		config.ecode = EXIT_FAILURE;
+		g_config.ecode = EXIT_FAILURE;
 		/* FALL THROUGH */
 	case 0:
 		goto early_exit;
@@ -31,7 +34,7 @@ int main(int argc, char **argv)
 	cntxt = init_context(malloc(sizeof(struct context)));
 	cntxt->fname = "<stdin>";
 
-	printef_d("C STANDARD %ld\n", config.lang_version);
+	printef_d("C STANDARD %ld\n", g_config.lang_version);
 	
 	yyparse();
 
@@ -39,7 +42,7 @@ int main(int argc, char **argv)
 
 early_exit:
 	free_context(cntxt);
-	return config.ecode;
+	return g_config.ecode;
 }
 
 int configure(int argc, char **argv)
@@ -63,19 +66,19 @@ int configure(int argc, char **argv)
 		case 's':
 			printef_d("Standard option is %s\n", optarg);
 			if (streq("c89", optarg)) {
-				config.lang_version = GANCC_STD_C89;
+				g_config.lang_version = GANCC_STD_C89;
 			} else if (streq("c90", optarg)) {
-				config.lang_version = GANCC_STD_C90;
+				g_config.lang_version = GANCC_STD_C90;
 			} else if (streq("c95", optarg)) {
-				config.lang_version = GANCC_STD_C95;
+				g_config.lang_version = GANCC_STD_C95;
 			} else if (streq("c99", optarg)) {
-				config.lang_version = GANCC_STD_C99;
+				g_config.lang_version = GANCC_STD_C99;
 			} else if (streq("c11", optarg)) {
-				config.lang_version = GANCC_STD_C11;
+				g_config.lang_version = GANCC_STD_C11;
 			} else if (streq("c18", optarg)) {
-				config.lang_version = GANCC_STD_C18;
+				g_config.lang_version = GANCC_STD_C18;
 			} else if (streq("c2x", optarg)) {
-				config.lang_version = GANCC_STD_C2x;
+				g_config.lang_version = GANCC_STD_C2x;
 			} else {
 				printef("Invalid C language standard\n");
 				return -1;

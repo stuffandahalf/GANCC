@@ -35,15 +35,11 @@
 #include <stdlib.h>
 #include <libgancc/lang.h>
 #include <libgancc/context.h>
-//#include <libgancc/constructs.h>
+#include <libgancc/constructs.h>
 
 int yylex();
 void yyerror(const char *str);
 %}
-
-%code requires {
-	#include <libgancc/constructs.h>
-}
 
 %union {
 	char *s;

@@ -6,6 +6,4 @@ struct configuration {
 	long lang_version;
 };
 
-extern struct configuration config;
-
 #endif /* defined(LIB_GANCC_CONFIGURATION_H) */
