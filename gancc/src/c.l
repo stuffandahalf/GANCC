@@ -22,37 +22,39 @@
 #define CHAR_ASSIGN { \
 	/* */ \
 }
+#define FLOAT_ASSIGN { \
+	/* */ \
+}
 
 
 #if defined(DEBUG_LEX) && DEBUG_LEX
-#define AB_TOKEN(test, a_tok, a_assign, b_tok, b_assign) \
-	count(); \
-	if ((test)) { \
-		printef_d("%s = %s\n", #a_tok, yytext); \
-		a_assign; \
-		return a_tok; \
-	} else { \
-		printef_d("%s = %s\n", #b_tok, yytext); \
-		b_assign; \
-		return b_tok; \
-	}
+#define ABS_TOKEN(tok, tokstr, assign) \
+	printef_d("%s = %s\n", tokstr, yytext); \
+	assign; \
+	return tok;
 #else
-#define AB_TOKEN(test, a_tok, a_assign, b_tok, b_assign) \
-	count(); \
-	if ((test)) { \
-		a_assign; \
-		return a_tok; \
-	} else { \
-		b_assign; \
-		return b_tok; \
-	}
+#define ABS_TOKEN(tok, tokstr, assign) \
+	assign; \
+	return tok;
 #endif /* defined(DEBUG_LEX) && DEBUG_LEX */
 
-#define STD_TOKEN(c_std, main_tok, main_assign, alt_tok, alt_assign) \
-	AB_TOKEN(g_config.lang_version >= c_std, main_tok, main_assign, alt_tok, alt_assign)
-
 #define TOKEN(tok, assign) \
-	STD_TOKEN(GANCC_STD_C89, tok, assign, 0, DEFAULT_ASSIGN)
+	ABS_TOKEN(tok, #tok, assign)
+
+#define ABS_AB_TOKEN(test, a_tok, a_tokstr, a_assign, b_tok, b_tokstr, b_assign) \
+	count(); \
+	if ((test)) { \
+		ABS_TOKEN(a_tok, a_tokstr, a_assign); \
+	} else { \
+		ABS_TOKEN(b_tok, b_tokstr, b_assign); \
+	}
+
+#define AB_TOKEN(test, a_tok, a_assign, b_tok, b_assign) \
+	ABS_AB_TOKEN(test, a_tok, #a_tok, a_assign, b_tok, #b_tok, b_assign)
+
+#define STD_TOKEN(c_std, main_tok, main_assign, alt_tok, alt_assign) \
+	ABS_AB_TOKEN(g_config.lang_version >= (c_std), main_tok, #main_tok, main_assign, alt_tok, #alt_tok, alt_assign)
+
 
 int yywrap(void);
 void count(void);
@@ -169,6 +171,11 @@ IS						[uUlL]*
 -?[1-9]{D}*				{ TOKEN(CONSTANT, INT_ASSIGN(10)); }    /* Matches all base 10 numbers */
 -?0{O}*					{ TOKEN(CONSTANT, INT_ASSIGN(8)); }     /* Matches base 8 numbers */
 -?0[xX]{H}+				{ TOKEN(CONSTANT, INT_ASSIGN(16)); }    /* Matches base 16 numbers */
+
+{D}+{E}{FS}?			{ TOKEN(CONSTANT, FLOAT_ASSIGN); }		/* Matches floating point numbers */
+{D}*"."{D}+({E})?{FS}?	{ TOKEN(CONSTANT, FLOAT_ASSIGN); }
+{D}+"."{D}*({E})?{FS}?	{ TOKEN(CONSTANT, FLOAT_ASSIGN); }
+
  /* Need to add floating point numbers */
 L?'(\\.|[^\\'])+'		{ TOKEN(CONSTANT, CHAR_ASSIGN); }       /* Character constant */
 L?\".*\"				{ TOKEN(STRING_LITERAL, DEFAULT_ASSIGN); }
