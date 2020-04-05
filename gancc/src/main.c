@@ -8,19 +8,23 @@
 #else
 #error No standard argument parser available
 #endif /* HAVE_GETOPT_LONG */
-//#include <libgancc/configuration.h>
 #include <libgancc/context.h>
 #include <libgancc/lang.h>
 #include <gancc/parser.h>
 #include <gancc/config.h>
 
-int yyparse(void);
 int configure(int argc, char **argv);
 
 struct configuration g_config;
 
 int main(int argc, char **argv)
 {
+#ifdef USE_GETOPT_LONG
+	printef_d("GETOPT_LONG\n");
+#else
+	printef_d("GETOPT\n");
+#endif
+
 	g_config.ecode = EXIT_SUCCESS;
 	g_config.lang_version = GANCC_STD_C89;
 	switch (configure(argc, argv)) {
@@ -55,9 +59,9 @@ int configure(int argc, char **argv)
 		{ "help", no_argument, NULL, 'h' },
 		{ 0, 0, 0, 0 }
 	};
-	while ((o = getopt_long(argc, argv, "-hs:", long_opts, NULL)) >= 0) {
+	while ((o = getopt_long(argc, argv, "-hs:", long_opts, NULL)) != -1) {
 #else
-	while ((o = getopt(argc, argv, "-hs:")) >= 0) {
+	while ((o = getopt(argc, argv, "-hs:")) != -1) {
 #endif
 		switch (o) {
 		case 1:

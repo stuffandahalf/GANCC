@@ -93,6 +93,7 @@ type_specifier
 	| DOUBLE
 	| SIGNED
 	| UNSIGNED
+	| BOOL
 	/*| struct_or_union_specifier*/
 	/*| enum_specifier*/
 	| TYPE_NAME
