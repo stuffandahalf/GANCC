@@ -1,7 +1,7 @@
 /* C89/C90 keywords */
 %token AUTO BREAK CASE CHAR CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTERN
-%token FLOAT FOR GOTO IF INT LONG REGISTER RETURN SHORT SIGNED SIZEOF STATIC
-%token STRUCT SWITCH TYPEDEF UNION UNSIGNED VOID VOLATILE WHILE
+%token FLOAT FOR GOTO IF INT LONG PRAGMA REGISTER RETURN SHORT SIGNED SIZEOF
+%token STATIC STRUCT SWITCH TYPEDEF UNION UNSIGNED VOID VOLATILE WHILE
 
 /* C99 keywords */
 %token BOOL COMPLEX IMAGINARY
@@ -44,6 +44,7 @@ void yyerror(const char *str);
 %union {
 	char *s;
 	struct literal l;
+	unsigned int ctxtflags;
 }
 
 %%
@@ -53,8 +54,52 @@ translation_unit
 	;
 
 external_declaration
-	: /*function_definition
-	| */declaration
+	: directive
+	/*| function_definition*/
+	| declaration
+	;
+
+directive
+	: /*pragma
+	| */position
+	;
+
+position
+	: '#' CONSTANT STRING_LITERAL
+		{
+			printf("%s:", $<s>3);
+			switch ($<l>2.type) {
+			case LITERAL_TYPE_SIGNED_INT:
+				printf("%d\n", $<l>3.val.si);
+				break;
+			case LITERAL_TYPE_UNSIGNED_INT:
+				printf("%u\n", $<l>3.val.ui);
+				break;
+			}
+		}
+	| '#' CONSTANT STRING_LITERAL position_flags
+		{
+			printf("Context flags: %u\n", $<ctxtflags>4);
+		}
+	;
+
+position_flags
+	: CONSTANT
+		{
+			if ($<l>1.val.ui > CONTEXT_FLAG_MAX) {
+				yyclearin;
+				yyerror("Constant is greater than 4");
+			}
+			$<ctxtflags>$ = BIT_FLAG($<l>1.val.ui - 1);
+		}
+	| position_flags CONSTANT
+		{
+			if ($<l>2.val.ui > CONTEXT_FLAG_MAX) {
+				yyclearin;
+				yyerror("Constant is greater than 4");
+			}
+			$<ctxtflags>$ = $<ctxtflags>1 | BIT_FLAG($<l>2.val.ui);
+		}
 	;
 
  /*function_definition

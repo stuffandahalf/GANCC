@@ -92,6 +92,7 @@ IS						[uUlL]*
 "if"					{ TOKEN(IF, DEFAULT_ASSIGN); }
 "int"					{ TOKEN(INT, DEFAULT_ASSIGN); }
 "long"					{ TOKEN(LONG, DEFAULT_ASSIGN); }
+"pragma"				{ TOKEN(PRAGMA, DEFAULT_ASSIGN); }
 "register"				{ TOKEN(REGISTER, DEFAULT_ASSIGN); }
 "return"				{ TOKEN(RETURN, DEFAULT_ASSIGN); }
 "short"					{ TOKEN(SHORT, DEFAULT_ASSIGN); }
