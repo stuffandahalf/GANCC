@@ -33,18 +33,19 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <libgancc/lang.h>
 #include <libgancc/context.h>
 #include <libgancc/constructs.h>
 
 int yylex();
 void yyerror(const char *str);
+void yyerrorf(const char *fmt, ...);
 %}
 
 %union {
 	char *s;
 	struct literal l;
-	unsigned int ctxtflags;
 }
 
 %%
@@ -67,19 +68,18 @@ directive
 position
 	: '#' CONSTANT STRING_LITERAL
 		{
-			printf("%s:", $<s>3);
-			switch ($<l>2.type) {
-			case LITERAL_TYPE_SIGNED_INT:
-				printf("%d\n", $<l>3.val.si);
-				break;
-			case LITERAL_TYPE_UNSIGNED_INT:
-				printf("%u\n", $<l>3.val.ui);
-				break;
+			free_context(g_cntxt);
+			g_cntxt = init_context(malloc(sizeof(struct context)));
+			if (g_cntxt == NULL) {
+				yyclearin;
+				yyerrorf("Failed to allocate new context object.\n");
 			}
+			g_cntxt->line = $<l>2.val.ui;
+			g_cntxt->fname = strtok($<s>3, "\n");
 		}
 	| '#' CONSTANT STRING_LITERAL position_flags
 		{
-			printf("Context flags: %u\n", $<ctxtflags>4);
+			printf("Context flags: %u\n", $<l>4.val.ui);
 		}
 	;
 
@@ -88,17 +88,17 @@ position_flags
 		{
 			if ($<l>1.val.ui > CONTEXT_FLAG_MAX) {
 				yyclearin;
-				yyerror("Constant is greater than 4");
+				yyerrorf("Constant \"%lu\" is greater than 4\n", $<l>1.val.ui);
 			}
-			$<ctxtflags>$ = BIT_FLAG($<l>1.val.ui - 1);
+			$<l>$.val.ui = BIT_FLAG($<l>1.val.ui);
 		}
 	| position_flags CONSTANT
 		{
 			if ($<l>2.val.ui > CONTEXT_FLAG_MAX) {
 				yyclearin;
-				yyerror("Constant is greater than 4");
+				yyerrorf("Constant \"%lu\" is greater than 4\n", $<l>2.val.ui);
 			}
-			$<ctxtflags>$ = $<ctxtflags>1 | BIT_FLAG($<l>2.val.ui);
+			$<l>$.val.ui = $<l>1.val.ui | BIT_FLAG($<l>2.val.ui);
 		}
 	;
 
@@ -252,7 +252,18 @@ unary_expression
 
 void yyerror(const char *str)
 {
-	//fprintf(stderr, "Error: %s on line number %d\n", str, -1);
-	printef("%s:%zd:%zd: Error: %s\n", cntxt->fname, cntxt->line, cntxt->column, str);
+	yyerrorf(str);
+}
+
+void yyerrorf(const char *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+
+	fprintf(stderr, "%s:%zd:%zd: error: ", g_cntxt->fname, g_cntxt->line, g_cntxt->column);
+	vfprintf(stderr, fmt, args);
+
+	va_end(args);
+
 	exit(1);
 }

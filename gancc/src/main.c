@@ -35,17 +35,17 @@ int main(int argc, char **argv)
 		goto early_exit;
 	}
 
-	cntxt = init_context(malloc(sizeof(struct context)));
-	cntxt->fname = "<stdin>";
+	g_cntxt = init_context(malloc(sizeof(struct context)));
+	g_cntxt->fname = "<stdin>";
 
 	printef_d("C STANDARD %ld\n", g_config.lang_version);
 	
 	yyparse();
 
-	printef_d("%s:%zd:%zd\n", cntxt->fname, cntxt->line, cntxt->column);
+	printef_d("%s:%zd:%zd\n", g_cntxt->fname, g_cntxt->line, g_cntxt->column);
 
 early_exit:
-	free_context(cntxt);
+	free_context(g_cntxt);
 	return g_config.ecode;
 }
 
