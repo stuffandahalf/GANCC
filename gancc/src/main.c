@@ -69,7 +69,7 @@ int configure(int argc, char **argv)
 			break;
 		case 's':
 			printef_d("Standard option is %s\n", optarg);
-			if (streq("c89", optarg)) {
+			if (streq("c89", optarg) || streq("ansi", optarg)) {
 				g_config.lang_version = GANCC_STD_C89;
 			} else if (streq("c90", optarg)) {
 				g_config.lang_version = GANCC_STD_C90;
