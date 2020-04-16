@@ -13,13 +13,12 @@ struct context {
 	size_t column;
 	size_t line;
 	const char *fname;
-	unsigned int flags;
 	struct context *parent;
 };
 
 struct context *init_context(struct context *cntxt);
 void free_context(struct context *cntxt);
 
-extern struct context *cntxt;
+extern struct context *g_cntxt;
 
 #endif /* defined(LIB_GANCC_CONTEXT_H) */

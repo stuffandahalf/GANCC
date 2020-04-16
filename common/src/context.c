@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <libgancc/context.h>
 
-struct context *cntxt;
+struct context *g_cntxt;
 
 struct context *init_context(struct context *cntxt)
 {

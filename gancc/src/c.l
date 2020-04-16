@@ -199,10 +199,10 @@ void count(void)
 	char *c;
 	for (c = yytext; *c != '\0'; c++) {
 		if (*c == '\n') {
-			cntxt->line++;
-			cntxt->column = 1;
+			g_cntxt->line++;
+			g_cntxt->column = 1;
 		} else {
-			cntxt->column++;
+			g_cntxt->column++;
 		}
 	}
 }
