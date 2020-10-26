@@ -41,16 +41,30 @@ main(int argc, char **argv)
 	fprintf(stderr, DEBUG_MSG "C Standard is %d\n", lang_standard);
 	if (fnamec > 0) {
 		for (i = 0; i < fnamec; i++) {
+			if(!push_context(fnames[i])) {
+				return 1;
+			}
 			fptr = fopen(fnames[i], "r");
 			if (!fptr) {
 				fprintf(stderr, ERROR_MSG "Failed to open file \"%s\" for reading\n", fnames[i]);
 				return 1;
 			}
+			
+			yyin = fptr;
+			yyparse();
+			yyin = stdin;
+			
+			fclose(fptr);
+			fptr = NULL;
+			free(pop_context());
 			// open file
 			// assign file to yyin
 			// run yyparse
 		} 
 	} else {
+		if (!push_context("<stdin>")) {
+			return 1;
+		}
 		yyparse();
 	}
 	return 0;
@@ -68,10 +82,6 @@ configure(int argc, char **argv)
 		return 0;
 	}
 	lang_standard = GANCC_C_STD_ANSI;
-	
-	if (!push_context("<stdin>")) {
-		return 0;
-	}
 	
 	while ((c = getopt(argc, argv, ":cD:EgI:L:o:O:sUC:")) != -1) {
 		switch (c) {
