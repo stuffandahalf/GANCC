@@ -1,4 +1,8 @@
+%{
 #include "parser.h"
+
+int yywrap(void);
+%}
 
 %%
 
@@ -17,3 +21,10 @@
 [a-zA-Z_][a-zA-Z0-9_]*	{ return IDENTIFIER; }
 
 %%
+
+int
+yywrap(void)
+{
+	return 0;
+}
+

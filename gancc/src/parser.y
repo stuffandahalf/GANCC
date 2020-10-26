@@ -1,16 +1,23 @@
 %token LBRACE RBRACE
 %token LPAREN RPAREN
 %token LBRACKET RBRACKET
-%token SEMICOL EQUAL
+%token SEMICOL EQUAL COMMA
 %token IDENTIFIER
 %token INTEGER_CONST OCTAL_CONST HEX_CONST
+
+%{
+#include <stdio.h>
+
+int yylex(void);
+void yyerror(const char *s);
+%}
 
 %%
 
 tl_unit
 	: variable_decl
-	| func_decl
-	| func_defn
+/*	| func_decl
+	| func_defn*/
 	;
 
 variable_decl
@@ -37,3 +44,10 @@ value
 	;
 
 %%
+
+void
+yyerror(const char *s)
+{
+	fprintf(stderr, "ERROR: %s\n", s);
+}
+
