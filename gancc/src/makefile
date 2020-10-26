@@ -1,5 +1,7 @@
 .POSIX:
 
+RELEASE_CFLAG=-DNDEBUG=1
+
 TARGET=gancc
 YFLAGS=-d
 
@@ -19,6 +21,9 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) -o $(TARGET) $(OBJS)
 
+main.o: main.c $(YACC_HEADER)
+	$(CC) $(CFLAGS) -c -o main.o main.c
+
 $(YACC_OUT) $(YACC_HEADER): parser.y
 	$(YACC) $(YFLAGS) parser.y
 	mv y.tab.c $(YACC_OUT)
@@ -26,6 +31,9 @@ $(YACC_OUT) $(YACC_HEADER): parser.y
 
 $(LEX_OUT:.c=.o): $(LEX_OUT) $(YACC_HEADER)
 	$(CC) $(CFLAGS) -c -o $(LEX_OUT:.c=.o) $(LEX_OUT)
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
 	rm -f $(TARGET)
