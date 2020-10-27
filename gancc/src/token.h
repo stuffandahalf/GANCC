@@ -43,4 +43,5 @@ struct assignment_prod {
 	} value;
 };
 
-#endif
+#endif /* GANCC_TOKEN_H */
+

@@ -1,5 +1,3 @@
-#define _POSIX_C_SOURCE	200112L
-
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +17,8 @@ static FILE *fptr;
 
 int lang_standard;
 struct context *cntxt = NULL;
+
+extern FILE *yyin;
 
 int
 main(int argc, char **argv)

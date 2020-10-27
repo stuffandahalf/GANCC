@@ -22,4 +22,5 @@ struct context {
 extern int lang_standard;
 extern struct context *cntxt;
 
-#endif
+#endif /* GANCC_UTIL_H */
+
