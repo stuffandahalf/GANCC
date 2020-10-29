@@ -5,6 +5,8 @@
 #define WARNING_MSG	"WARNING: "
 #define DEBUG_MSG	"DEBUG: "
 
+#define TAB_SIZE	(4)
+
 #define GANCC_C_STD_ANSI	89
 #define GANCC_C_STD_C95		95
 #define GANCC_C_STD_C99		99
