@@ -6,6 +6,8 @@
 #include "util.h"
 #include "parser.h"
 
+int yyparse(void);
+
 int configure(int argc, char **argv);
 int push_context(const char *path);
 struct context *pop_context(void);
