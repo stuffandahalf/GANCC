@@ -1,0 +1,8 @@
+#include "parser.h"
+
+int
+parse(FILE *fp)
+{
+	return 0;
+}
+

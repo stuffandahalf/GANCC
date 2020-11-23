@@ -1,0 +1,22 @@
+#ifndef GANCC_CPP_PARSER_H
+#define GANCC_CPP_PARSER_H	1
+
+#include <stdio.h>
+
+enum token {
+	TOKEN_EOF,
+	TOKEN_POUND,
+	TOKEN_INCLUDE,
+	TOKEN_IF,
+	TOKEN_ELIF,
+	TOKEN_ELSE,
+	TOKEN_ENDIF,
+	TOKEN_PRAGMA,
+	TOKEN_PRAGMA99,
+	TOKEN_IDENTIFIER
+};
+
+int parse(FILE *fp);
+
+#endif /* GANCC_CPP_PARSER_H */
+
